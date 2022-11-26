@@ -94,26 +94,36 @@ void preencheVetor(int *vetor, int tam)
         vetor[i] = 1 + rand() % maxTam;
 }
 
-void mostrarVetor(int *vetor, int tam)
+double tempoDecorrido(time_t tempo)
 {
-    //Essa função imprime na tela o vetor passado como parâmetro
-    for (int i = 0; i < tam; i++)
+    return (double)(tempo/(CLOCKS_PER_SEC/1000));
+}
+
+void runMergeSort(const int tam)
+{
+    time_t instante;
+    int count = 0;
+    double tempoTotal = 0;
+    int *vetor = new int[tam];
+
+    do
     {
-        std::cout << vetor[i] << " ";
-    }
-    std::cout << std::endl;
+        preencheVetor(vetor, tam);
+
+        instante = clock();
+        mergeSort(vetor, 0, tam - 1);
+        instante = clock() - instante;
+        count++;
+        tempoTotal += tempoDecorrido(instante) / count;
+
+    } while (tempoTotal <= 0);
+
+    printf("Merge Sort com %d elementos\n", tam);
+    printf("Tempo decorrido: %fms.", tempoTotal);
 }
 
 int main()
 {
-    const int tam = 10;
-    int *vetor = new int[tam];
-
-    preencheVetor(vetor, tam);
-    std::cout << "Vetor nao ordenado:" << std::endl;
-    mostrarVetor(vetor, tam);
-
-    std::cout << "Vetor ordenado utilizando o algoritmo Selection Sort:" << std::endl;
-    mergeSort(vetor, 0, tam - 1);
-    mostrarVetor(vetor, tam);
+    runMergeSort(100);
+    return EXIT_SUCCESS;
 }

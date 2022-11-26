@@ -3,7 +3,8 @@
 */
 
 #include <iostream>
-#include <ctime>
+#include <time.h>
+#include <iomanip>
 
 void insertionSort(int *vetor, int tam) 
 {
@@ -48,9 +49,17 @@ void mostrarVetor(int *vetor, int tam)
     std::cout << std::endl;
 }
 
+void tempoDecorrido(time_t tempo)
+{
+    double tempoTotal = (double)(tempo/(CLOCKS_PER_SEC/1000));
+
+    std::cout << "Tempo decorrido: " << std::fixed << tempoTotal << std::setprecision(5) << "ms.\n";
+}
+
 int main()
 {
-    const int tam = 10;
+    time_t tempo;
+    const int tam = 100;
     int *vetor = new int[tam];
 
     preencheVetor(vetor, tam);
@@ -58,6 +67,13 @@ int main()
     mostrarVetor(vetor, tam);
 
     std::cout << "Vetor ordenado utilizando o algoritmo Insertion Sort:" << std::endl;
+
+    tempo = clock();
     insertionSort(vetor, tam);
+    tempo = clock() - tempo;
+
     mostrarVetor(vetor, tam);
+    tempoDecorrido(tempo);
+
+    return EXIT_SUCCESS;
 }

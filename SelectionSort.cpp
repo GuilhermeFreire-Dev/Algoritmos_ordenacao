@@ -3,7 +3,10 @@
 */
 
 #include <iostream>
-#include <ctime>
+#include <time.h>
+#include <iomanip>
+
+using namespace std;
 
 void selectionSort(int *vetor, int tam)
 {
@@ -48,16 +51,36 @@ void mostrarVetor(int *vetor, int tam)
     std::cout << std::endl;
 }
 
-int main()
+double tempoDecorrido(time_t tempo)
 {
-    const int tam = 10;
+    return (double)(tempo/(CLOCKS_PER_SEC/1000));
+}
+
+void runSelectionSort(const int tam)
+{
+    time_t instante;
+    int count = 0;
+    double tempoTotal = 0;
     int *vetor = new int[tam];
 
-    preencheVetor(vetor, tam);
-    std::cout << "Vetor nao ordenado:" << std::endl;
-    mostrarVetor(vetor, tam);
+    do
+    {
+        preencheVetor(vetor, tam);
 
-    std::cout << "Vetor ordenado utilizando o algoritmo Selection Sort:" << std::endl;
-    selectionSort(vetor, tam);
-    mostrarVetor(vetor, tam);
+        instante = clock();
+        selectionSort(vetor, tam);
+        instante = clock() - instante;
+        count++;
+        tempoTotal += tempoDecorrido(instante) / count;
+
+    } while (tempoTotal <= 0);
+
+    printf("Selection Sort com %d elementos\n", tam);
+    printf("Tempo decorrido: %fms.", tempoTotal);
+}
+
+int main()
+{
+    runSelectionSort(100);
+    return EXIT_SUCCESS;
 }
