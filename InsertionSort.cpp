@@ -3,8 +3,6 @@
 */
 
 #include <iostream>
-#include <time.h>
-#include <iomanip>
 
 void insertionSort(int *vetor, int tam) 
 {
@@ -43,37 +41,28 @@ void mostrarVetor(int *vetor, int tam)
 {
     //Essa função imprime na tela o vetor passado como parâmetro
     for (int i = 0; i < tam; i++)
-    {
-        std::cout << vetor[i] << " ";
-    }
-    std::cout << std::endl;
+        printf("[%d] ", vetor[i]);
+    
+    printf("\n");
 }
 
-void tempoDecorrido(time_t tempo)
+void runInsertionSort(int tam)
 {
-    double tempoTotal = (double)(tempo/(CLOCKS_PER_SEC/1000));
+    int *vetor = new int[tam];
 
-    std::cout << "Tempo decorrido: " << std::fixed << tempoTotal << std::setprecision(5) << "ms.\n";
+    preencheVetor(vetor, tam);
+    printf("Vetor nao ordenado:\n");
+    mostrarVetor(vetor, tam);
+
+    printf("Vetor ordenado utilizando o algoritmo Insertion Sort:\n");
+
+    insertionSort(vetor, tam);
+    mostrarVetor(vetor, tam);
 }
 
 int main()
 {
-    time_t tempo;
-    const int tam = 100;
-    int *vetor = new int[tam];
-
-    preencheVetor(vetor, tam);
-    std::cout << "Vetor nao ordenado:" << std::endl;
-    mostrarVetor(vetor, tam);
-
-    std::cout << "Vetor ordenado utilizando o algoritmo Insertion Sort:" << std::endl;
-
-    tempo = clock();
-    insertionSort(vetor, tam);
-    tempo = clock() - tempo;
-
-    mostrarVetor(vetor, tam);
-    tempoDecorrido(tempo);
+    runInsertionSort(10);
 
     return EXIT_SUCCESS;
 }

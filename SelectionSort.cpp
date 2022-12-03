@@ -3,8 +3,6 @@
 */
 
 #include <iostream>
-#include <time.h>
-#include <iomanip>
 
 using namespace std;
 
@@ -45,42 +43,28 @@ void mostrarVetor(int *vetor, int tam)
 {
     //Essa função imprime na tela o vetor passado como parâmetro
     for (int i = 0; i < tam; i++)
-    {
-        std::cout << vetor[i] << " ";
-    }
-    std::cout << std::endl;
-}
-
-double tempoDecorrido(time_t tempo)
-{
-    return (double)(tempo/(CLOCKS_PER_SEC/1000));
+        printf("[%d] ", vetor[i]);
+    
+    printf("\n");
 }
 
 void runSelectionSort(const int tam)
 {
-    time_t instante;
-    int count = 0;
-    double tempoTotal = 0;
     int *vetor = new int[tam];
 
-    do
-    {
-        preencheVetor(vetor, tam);
+    preencheVetor(vetor, tam);
+    printf("Vetor nao ordenado:\n");
+    mostrarVetor(vetor, tam);
 
-        instante = clock();
-        selectionSort(vetor, tam);
-        instante = clock() - instante;
-        count++;
-        tempoTotal += tempoDecorrido(instante) / count;
+    printf("Vetor ordenado utilizando o algoritmo Merge Sort:\n");
 
-    } while (tempoTotal <= 0);
-
-    printf("Selection Sort com %d elementos\n", tam);
-    printf("Tempo decorrido: %fms.", tempoTotal);
+    selectionSort(vetor, tam);
+    mostrarVetor(vetor, tam);
 }
 
 int main()
 {
-    runSelectionSort(100);
+    runSelectionSort(10);
+
     return EXIT_SUCCESS;
 }

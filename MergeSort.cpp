@@ -3,7 +3,6 @@
 */
 
 #include <iostream>
-#include <ctime>
 
 void merge(int* vetor, int const esquerda, int const meio, int const direita)
 {
@@ -15,9 +14,7 @@ void merge(int* vetor, int const esquerda, int const meio, int const direita)
     if (arrayEsquerda != nullptr)
     {
         for (int i = 0; i < arEsquerda; i++)
-        {
             arrayEsquerda[i] = vetor[esquerda + i];
-        }
     }
     else
     {
@@ -27,9 +24,7 @@ void merge(int* vetor, int const esquerda, int const meio, int const direita)
     if (arrayDireita != nullptr)
     {
         for (int j = 0; j < arDireita; j++)
-        {
             arrayDireita[j] = vetor[meio + 1 + j];
-        }
     }
     else
     {
@@ -71,10 +66,8 @@ void merge(int* vetor, int const esquerda, int const meio, int const direita)
 void mergeSort(int* vetor, int const incio, int const fim)
 {
     if (incio >= fim)
-    {
         return;
-    }
-
+    
     int mid = incio + (fim - incio) / 2;
     mergeSort(vetor, incio, mid);
     mergeSort(vetor, mid + 1, fim);
@@ -94,36 +87,32 @@ void preencheVetor(int *vetor, int tam)
         vetor[i] = 1 + rand() % maxTam;
 }
 
-double tempoDecorrido(time_t tempo)
+void mostrarVetor(int *vetor, int tam)
 {
-    return (double)(tempo/(CLOCKS_PER_SEC/1000));
+    //Essa função imprime na tela o vetor passado como parâmetro
+    for (int i = 0; i < tam; i++)
+        printf("[%d] ", vetor[i]);
+    
+    printf("\n");
 }
 
 void runMergeSort(const int tam)
 {
-    time_t instante;
-    int count = 0;
-    double tempoTotal = 0;
     int *vetor = new int[tam];
 
-    do
-    {
-        preencheVetor(vetor, tam);
+    preencheVetor(vetor, tam);
+    printf("Vetor nao ordenado:\n");
+    mostrarVetor(vetor, tam);
+    
+    printf("Vetor ordenado utilizando o algoritmo Merge Sort:\n");
 
-        instante = clock();
-        mergeSort(vetor, 0, tam - 1);
-        instante = clock() - instante;
-        count++;
-        tempoTotal += tempoDecorrido(instante) / count;
-
-    } while (tempoTotal <= 0);
-
-    printf("Merge Sort com %d elementos\n", tam);
-    printf("Tempo decorrido: %fms.", tempoTotal);
+    mergeSort(vetor, 0, tam - 1);
+    mostrarVetor(vetor, tam);
 }
 
 int main()
 {
-    runMergeSort(100);
+    runMergeSort(10);
+
     return EXIT_SUCCESS;
 }
